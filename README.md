@@ -1,7 +1,7 @@
 # ODK2Doc 📱➡️📝 
-Survey data collection often uses technology such as [Open Data Kit/Kobo/SurveyCTO](https://getodk.org/vs-kobo/). These survey applications use a common format for designing questionnaires, which can they be used by enumerators to collect data via a mobile phone application.
+Aid organisations, academic researchers and civil society organisations often rely on data collection platforms such as [Open Data Kit/Kobo/SurveyCTO](https://getodk.org/vs-kobo/). These survey applications use a common format for designing questionnaires, which can they be used by enumerators to collect data via a mobile phone application.
 
-Researchers, development practioners and those working with civil society/NGOs, who rely on these apps for their data collection work, often need to convert their questionnaires to [printable formats](https://forum.getodk.org/t/download-form-to-word/5868) or [word documents](https://community.kobotoolbox.org/t/do-we-convert-kobo-question-form-into-microsoft-word/5177). This app tries to make this process easier and more straightforward.
+People working with these platforms, at times, need to convert their questionnaires to [printable formats](https://forum.getodk.org/t/download-form-to-word/5868) or [word documents](https://community.kobotoolbox.org/t/do-we-convert-kobo-question-form-into-microsoft-word/5177). This app tries to make this process easier and more straightforward.
 
 This app converts the xls survey form (Used by Kobo, ODK & even, SurveyCTO) to formatted word documents for printing and/or adding to reports. The final app is available for use [here](https://zaeendesouza.shinyapps.io/ODK2Doc/). I am still testing it out on various forms, but if you find any issues or errors, please flag these. Also, if you would like a specific feature(s) to be added, please let me know and I will try my best to add them.
 
