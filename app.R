@@ -1,9 +1,5 @@
 library(shiny)
 library(rmarkdown)
-library(shinycssloaders)
-library(dplyr)
-library(waiter)
-
 # remaking this so that we can style it (more easily) w css later on
 fileInputOnlyButton <- function(..., label = "") {
   temp <- fileInput(..., label = label)
