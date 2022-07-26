@@ -4,3 +4,7 @@ This is a shiny app that converts xls survey forms to formatted word documents f
 
 
 **Note:** *This is the first version of this, and I do plan to add more features. The next version will have options for adding skip logic and other conditions to the form, too!*
+
+
+# Example
+![Alt Text](https://github.com/zaeendesouza/ODK2Doc/blob/main/odk2doc.gif)
