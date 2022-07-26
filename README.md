@@ -1,5 +1,5 @@
 # ODK2Doc 📱➡️📝 
-Aid organisations, academic researchers and civil society organisations often rely on data collection platforms such as [ODK/Kobo](https://getodk.org/vs-kobo/). These survey applications use a common format for designing questionnaires, which can they be used by enumerators to collect data via a mobile phone application.
+Aid organisations, academic researchers and civil society organisations often rely on data collection platforms such as [ODK/Kobo](https://getodk.org/vs-kobo/). These survey applications use a common format for designing questionnaires, which are then used by teams and enumerators to collect data via an offline mobile phone application.
 
 People working with these platforms, at times, need to convert their questionnaires to [printable formats](https://forum.getodk.org/t/download-form-to-word/5868) or [word documents](https://community.kobotoolbox.org/t/do-we-convert-kobo-question-form-into-microsoft-word/5177). This app tries to make this process easier and more straightforward.
 
