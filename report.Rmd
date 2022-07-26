@@ -1,0 +1,165 @@
+---
+author: "[AUTHOR NAME HERE]"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output: word_document
+params:
+  file:
+    value: NA
+---
+
+```{r setup, include = FALSE}
+# Packages needed ----
+library(readxl)
+library(stringr)
+library(flextable)
+library(ftExtra)
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
+# packages = c("readxl",
+#              "stringr",
+#              "flextable",
+#              "ftExtra",
+#              "tidyverse",
+#              "knitr",
+#              "rmarkdown")
+# 
+# # This will check if installed & install if not installed -----
+# packages_needed <- lapply(
+#   packages,
+#   FUN = function(x) {
+#     if (!require(x, character.only     = TRUE)) {
+#       install.packages(x, dependencies = TRUE)
+#       library(x, character.only        = TRUE)
+#     }
+#   }
+# )
+
+# Setting the flextable defaults -> this formats the tables
+set_flextable_defaults(font.family  = "Calibri",
+                       border.color = "black",  
+                       font.size    = 9, 
+                       theme_fun    = "theme_vanilla",
+                       big.mark     = ",", 
+                       table.layout = "autofit")
+
+# Loading the form(s) i.e:
+  # 1) Questions (For questions - keeps the markdown formatting)
+  # 2) Choices (For choices)
+  # 3) Settings (For the Document title via the 'Settings' sheet)
+
+survey_questions <- read_excel(params$file, sheet = "survey")
+
+survey_choices <- read_excel(params$file, sheet = "choices")
+
+title <- read_excel(params$file, sheet = "settings")
+
+# Title is determined by the FORM TITLE in the SETTINGS sheet
+title <- title$form_title
+
+## removing empty rows to get rid of the long, empty bits in the tables
+survey_choices <- survey_choices |>
+  filter(!is.na(list_name))
+
+survey_questions <- survey_questions |>
+  filter(!is.na(label))
+
+# Forms -----
+
+## Splitting the question column ----
+survey_questions <-
+  survey_questions |>
+  separate(col  = type,
+           into = c("type", 
+                    "list_name"),
+           sep  = " ") |>
+  mutate(label= gsub("#", "", label)) |>
+  mutate(label= gsub("@", "[at]", label))
+
+# making a small vector of question types
+
+types <- c("integer", "calculate",
+           "geopoint", "note", "text")
+
+new_choice <- c("[Integer]",
+                "[Calculation]",
+                "[Latitude, Longitude, Altitude]",
+                "[Text]",
+                "[Enumerator Note]")
+
+survey_questions$list_name <-
+  ifelse(
+    survey_questions$type %in% types,
+    survey_questions$type,
+    survey_questions$list_name)
+
+survey_choices <- survey_choices %>%
+  add_row(
+    list_name = c("integer",
+                  "calculate",
+                  "geopoint",
+                  "text",
+                  "note"),
+    label     = c("[Integer]",
+                  "[Calculation]",
+                  "[Latitude, Longitude, Altitude]",
+                  "[Text]",
+                  "[Enumerator Note]"))
+
+## Merging choices & questions via the choice label ----
+survey_questions <-
+  survey_questions |>
+  inner_join(x  = survey_questions,
+             y  = survey_choices,
+             by = "list_name")
+
+# here we will make the table that gets printed into the word doc
+survey_questions <- survey_questions  |>
+  # grouping by the question and assigning a unique ID to each one
+  group_by(name.x) |>
+  mutate(id = row_number()) |>
+  # keeping only the first instance of it, all entries != 1 are converted to NA
+  mutate(label.x  = ifelse(test = id == 1,
+                           yes  = label.x,
+                           no   = NA))
+
+survey_questions <- survey_questions|>
+  select(-id) |>
+  # grouping by the question and assigning a unique ID to each one
+  group_by(name.x) |>
+  mutate(id = row_number()) |>
+  # keeping only the first instance of it, all entries != 1 are converted to NA
+  mutate(name.x  = ifelse(test = id == 1,
+                          yes  = name.x,
+                          no   = NA))
+
+
+survey_questions <- survey_questions|>
+  select(label.x, label.y)
+  
+  
+# need to correct column labels
+survey_questions <- survey_questions|>
+  rename(Question = label.x,
+         Choices  = label.y) |>
+  mutate(Question = replace_na(Question, " ")) |>
+  select(Question, Choices)
+  
+final <- subset(survey_questions, 
+                           select=c("Question", "Choices"))
+
+rm(survey_choices, survey_questions)
+```
+
+---
+title: "`r title`"
+---
+
+```{r ft.split = TRUE, echo = F,}
+final |>
+ flextable() |>
+ set_caption(caption = "Questionnaire",
+             style   = "Table Caption") |>
+   colformat_md(j    = Question)
+```
+
