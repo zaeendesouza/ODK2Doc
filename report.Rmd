@@ -1,7 +1,8 @@
 ---
 author: "[AUTHOR NAME HERE]"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: word_document
+output: 
+  word_document
 params:
   file:
     value: NA
@@ -57,7 +58,6 @@ title <- read_excel(params$file, sheet = "settings")
 # Title is determined by the FORM TITLE in the SETTINGS sheet
 title <- title$form_title
 
-## removing empty rows to get rid of the long, empty bits in the tables
 survey_choices <- survey_choices |>
   filter(!is.na(list_name))
 
@@ -74,7 +74,9 @@ survey_questions <-
                     "list_name"),
            sep  = " ") |>
   mutate(label= gsub("#", "", label)) |>
-  mutate(label= gsub("@", "[at]", label))
+  mutate(label= gsub("@", "[at]", label)) |>
+  mutate(label = gsub("<(.|\n)*?>", "", label)) |>
+  mutate(label = gsub("\\*", "", label))
 
 # making a small vector of question types
 
@@ -106,6 +108,11 @@ survey_choices <- survey_choices %>%
                   "[Text]",
                   "[Enumerator Note]"))
 
+# survey_questions <- survey_questions |>
+#   mutate(label = paste("(", name,")", label, sep = " "))
+
+df_names <- names(survey_questions)
+
 ## Merging choices & questions via the choice label ----
 survey_questions <-
   survey_questions |>
@@ -113,16 +120,37 @@ survey_questions <-
              y  = survey_choices,
              by = "list_name")
 
+yes_rel <- ifelse(test = "relevant" %in% df_names, 
+              yes = 1,
+              no = 0)
+
+if (yes_rel == 1) {
+  survey_questions <- survey_questions |>
+  rename(relevant = relevant)  
+}else{
+survey_questions <- survey_questions |>
+  rename(relevant = relevance)  
+}
+
 # here we will make the table that gets printed into the word doc
 survey_questions <- survey_questions  |>
   # grouping by the question and assigning a unique ID to each one
-  group_by(name.x) |>
+  group_by(label.x) |>
   mutate(id = row_number()) |>
   # keeping only the first instance of it, all entries != 1 are converted to NA
   mutate(label.x  = ifelse(test = id == 1,
                            yes  = label.x,
                            no   = NA))
 
+
+df_names <- names(survey_questions)
+yes      <- ifelse(test = "name.x" %in% df_names, 
+              yes = 1,
+              no = 0)
+  
+
+
+if (yes == 1) {  
 survey_questions <- survey_questions|>
   select(-id) |>
   # grouping by the question and assigning a unique ID to each one
@@ -133,33 +161,47 @@ survey_questions <- survey_questions|>
                           yes  = name.x,
                           no   = NA))
 
-
 survey_questions <- survey_questions|>
-  select(label.x, label.y)
-  
-  
+  select(name.x, label.x, label.y, relevant) |>
+  rename(Label = name.x,
+         Logic = relevant)
+}else{
+  # grouping by the question and assigning a unique ID to each one
+survey_questions <- survey_questions|>
+  select(-id) |>
+  group_by(name) |>
+    mutate(id = row_number()) |>
+    # keeping only the first instance of it, all entries != 1 are converted to NA
+    mutate(name  = ifelse(test = id == 1,
+                            yes  = name,
+                            no   = NA))
+survey_questions <- survey_questions|>
+  select(name, label.x, label.y, relevant) |>
+  rename(Label = name,
+         Logic = relevant)
+}
+
+
+
 # need to correct column labels
 survey_questions <- survey_questions|>
   rename(Question = label.x,
          Choices  = label.y) |>
   mutate(Question = replace_na(Question, " ")) |>
-  select(Question, Choices)
-  
+  select(Label, Question, Choices, Logic)
+
 final <- subset(survey_questions, 
-                           select=c("Question", "Choices"))
+                select=c("Label", "Question", "Choices", "Logic"))
 
 rm(survey_choices, survey_questions)
-```
 
----
-title: "`r title`"
----
 
-```{r ft.split = TRUE, echo = F,}
+```{r ft.split = TRUE, echo = F}
 final |>
- flextable() |>
- set_caption(caption = "Questionnaire",
-             style   = "Table Caption") |>
-   colformat_md(j    = Question)
+  flextable() |>
+  set_caption(caption = "Questionnaire",
+              style = "Table Caption") |>
+  bold(~ !is.na(Question), 2) |>
+  italic(~ !is.na(Question), 1)
 ```
 

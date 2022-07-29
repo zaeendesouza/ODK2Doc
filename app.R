@@ -1,5 +1,9 @@
 library(shiny)
 library(rmarkdown)
+library(shinycssloaders)
+library(dplyr)
+library(waiter)
+
 # remaking this so that we can style it (more easily) w css later on
 fileInputOnlyButton <- function(..., label = "") {
   temp <- fileInput(..., label = label)
@@ -32,7 +36,8 @@ ui <- tabsetPanel(
           # this is the main heading of the page
           tags$h1(
             tags$strong("ODK2Doc",
-              style = "font-size: 100%"
+              style = "font-size: 100%;
+                       padding-bottom: 500px;"
             )
           )
         ),
@@ -40,54 +45,58 @@ ui <- tabsetPanel(
           class = "main_text",
           tags$h4(
             HTML(
-              'Load an xls form using the upload button
-                        (<i class="fa fa-upload" style = "color: #8e8d8d;"></i>).
-                        Make sure your form uses the <b><span class="half_background">
+              'Welcome to <b>ODK2Doc</b>! This is an app to convert ODK forms to printable, and easily editable, .docx documents. <br> <br> To begin, upload an xls form using the upload button
+                        (<i class="fa fa-upload" style = "color: #8e8d8d;"></i>) below.
+                        For best results, make sure your form uses the <b><span class="half_background">
                         <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
-                        default</b></span></a> sheet names. You should also add a form title via the <b><span class="half_background">
+                        default</b></span></a> sheet names and a form title that has been added via the <b><span class="half_background">
                         <a href = "https://xlsform.org/en/#settings-worksheet", target="_blank">
                         settings</b></span></a> sheet. <br><br> Once you have uploaded a form,
                         click the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
-                        and wait for few seconds; your converted form will download
-                        as soon as the conversion is over!'
+                        and wait for few seconds, and your converted form will download as soon as it has been compiled!'
             )
           ),
           style = "font-size: 100%;
                           width: 50%;
                           text-align:justify;
-                          line-height: 1.7"
+                          line-height: 1.7;"
         ),
         tags$div(
           class = "select_something",
           fileInputOnlyButton(
             inputId     = "file1",
             label       = "Test",
-            buttonLabel = list(icon("upload", style = "color: #8e8d8d"), ".xls"),
+            buttonLabel = list(icon("upload", 
+                                    style = "color: #8e8d8d", title = "Upload"), 
+                               ".xls"),
             accept      = c(".xlsx"),
           ),
         ),
-        downloadButton(
-          outputId = "downloadreport",
-          icon     = icon("download", style = "color: #8e8d8d"),
-          class    = "select_something",
-          style    = HTML("text-decoration: none;"),
-          label    = ".doc",
-        ),
-        tags$h3(
+         downloadButton(
+           outputId     = "downloadreport",
+           icon         = icon("download", 
+                               style = "color: #8e8d8d"),
+           class        = "select_something",
+           style        = HTML("text-decoration: none;"), title = "Download",
+           label        = ".doc",
+         ),
+        tags$div(
+          tags$h3(
           HTML(
             '<b> Note:</b> Still in testing phase! (This <b>v.1</b>).<br>The next version will contain more features! <br><br><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
                      <a href = "https://twitter.com/zaeendesouza/", target="_blank">zaeendesouza</span></a>
                      <br><i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
-                     <a href = "https://github.com/zaeendesouza", target="_blank">zaeendesouza</span></a>'
+                     <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
           ),
-          style = "font-size: 10px;
-                         width: 900px;
-                         text-align: center;
-                        padding-top: 60px;"
+          style          = "font-size: 10px;
+                            width: 500px;
+                            text-align: center;
+                            padding-top: 60px;"
         )
       )
     ),
   ),
+)
 )
 
 
@@ -115,7 +124,7 @@ server <- function(input, output) {
             output_format      = word_document(),
             params = list(file = input$file1$datapath)
           )
-          
+        
           file.rename(out, file)
           
         }
