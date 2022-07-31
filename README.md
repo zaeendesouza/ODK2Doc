@@ -8,11 +8,6 @@ The final app is available for use [here](https://zaeendesouza.shinyapps.io/ODK2
 
 **Note:** *This is the first version of this app; I do plan to add more features - the next version of it will have options for adding skip logic and other conditions to the converted document.*
 
-
-## Example
-![Alt Text](https://github.com/zaeendesouza/ODK2Doc/blob/main/odk2doc.gif)
-
-
 ## Tips
 
 Make sure that the form has a title, that has been added via the 'settings' sheet of the form. The app also requires that sheets have the default names:
