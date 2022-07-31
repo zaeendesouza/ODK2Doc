@@ -1,23 +1,24 @@
 /* fancy font: */
-
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+  
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 h2,
 h3,
 h4,
 h5,
 h6,
 body {
-    font-family: 'Roboto Mono', sans-serif;
-    font-weight: 200;
+  font-family: 'Roboto Mono', sans-serif;
+  font-weight: 200;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 h1  {
-    font-family: 'Roboto Mono', sans-serif;
-    font-weight: 600;
-    justify-content: center;
-    background: linear-gradient(to top, #ffeb3b 35%, transparent 5%);
-}
+  font-family: 'Roboto Mono', sans-serif;
+  font-weight: 600;
+  justify-content: center;
+  background: linear-gradient(to top, #ffeb3b 35%, transparent 5%);
+  margin-bottom: -200px;
+     }
 
 h4 {
     font-size: 13px;
@@ -46,12 +47,12 @@ a{
 }
 
 .main_page_content {
-    margin-top: 0%;
-    padding: 20px;
+    margin-top: -10%;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
     row-gap: 10px;
+background-color: white;
     align-content: center;
     justify-content: center;
     align-items: center;
@@ -65,6 +66,28 @@ a{
   display: inline-block; 
   color: black;
   margin: auto;
+  padding: 0.5rem;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  justify-items: center;
+  text-decoration: none;
+  border-radius: 0.3rem;
+  width: 150px;
+  height: 20px;
+  border: 0.1px #B0AB99 solid;
+  cursor: pointer;
+  _cursor: hand;
+  margin-top: 0.5rem;
+}
+
+.select_something2 {
+  background-color: white;
+  position: relative;
+  z-index: 1; 
+  display: inline-block; 
+  color: black;
+  margin-top: 200px;
   padding: 0.5rem;
   justify-content: center;
   text-align: center;

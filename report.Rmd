@@ -1,8 +1,7 @@
 ---
 author: "[AUTHOR NAME HERE]"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: 
-  word_document
+output: word_document
 params:
   file:
     value: NA

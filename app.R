@@ -1,6 +1,6 @@
 library(shiny)
 library(rmarkdown)
-library(shinycssloaders)
+library(shinyWidgets)
 library(dplyr)
 library(waiter)
 
@@ -26,21 +26,15 @@ ui <- tabsetPanel(
     value = "main_page",
     # linking css right into the page
     includeCSS(path = "styles.css"),
-    tags$div(
-      class = "main_page_container",
       tags$div(
         class = "main_page_content",
-        tags$div(
-          class = "some_text",
-
           # this is the main heading of the page
           tags$h1(
             tags$strong("ODK2Doc",
               style = "font-size: 100%;
-                       padding-bottom: 500px;"
+                       padding-bottom: 0px;"
             )
-          )
-        ),
+          ),
         tags$div(
           class = "main_text",
           tags$h4(
@@ -51,13 +45,14 @@ ui <- tabsetPanel(
                         <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
                         default</b></span></a> sheet names and a form title that has been added via the <b><span class="half_background">
                         <a href = "https://xlsform.org/en/#settings-worksheet", target="_blank">
-                        settings</b></span></a> sheet. <br><br> Once you have uploaded a form,
-                        click the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
-                        and wait for few seconds, and your converted form will download as soon as it has been compiled!'
+                        settings</b></span></a> sheet. <br><br> Once you have uploaded a form, you also have the option to choose whether or not you want the app to 
+                        print additional information, such as the skip logic for each question; by default, it does not give you this information.
+                        <br><br>To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
+                        and wait for few seconds - your converted form will download as soon as it has been compiled!'
             )
           ),
-          style = "font-size: 100%;
-                          width: 50%;
+          style = "font-size: 90%;
+                          width: 60%;
                           text-align:justify;
                           line-height: 1.7;"
         ),
@@ -76,12 +71,18 @@ ui <- tabsetPanel(
          downloadButton(
            outputId     = "downloadreport",
            icon         = icon("download", 
-                               style = "color: #8e8d8d"),
+           style        = "color: #8e8d8d"),
            class        = "select_something",
            style        = HTML("text-decoration: none;"), 
-           title = "Download",
-           label        = ".doc",
+           title        = "Download",
+           label        = ".docx",
          ),
+        tags$div(
+            checkboxInput(inputId = "checkbox", 
+                          label   = "Add extra information?", 
+                          value   = FALSE, 
+                          width   = "100%"),
+          ),
         tags$div(
           tags$h3(
           HTML(
@@ -97,7 +98,6 @@ ui <- tabsetPanel(
         )
       )
     ),
-  ),
 )
 )
 
