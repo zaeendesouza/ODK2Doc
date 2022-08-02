@@ -17,3 +17,10 @@ Make sure that the form has a title, that has been added via the 'settings' shee
 3. settings
 
 Other names, will not work with this app.
+
+## Files
+
+1. **App:** *Main shiny app file (contains ui and server).*
+2.  **report1.Rmd:** *Template for the minimal form.*
+3. **report2.Rmd:** *Template for when people choose to add skip logic.*
+4. **styles.css:** *Style sheet.*
