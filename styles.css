@@ -1,6 +1,4 @@
-/* fancy font: */
-  
-  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 h2,
 h3,
 h4,
@@ -52,7 +50,7 @@ a{
     grid-template-columns: 1fr;
     grid-template-rows: repeat(2, 1fr);
     row-gap: 10px;
-background-color: white;
+    background-color: white;
     align-content: center;
     justify-content: center;
     align-items: center;

@@ -2,7 +2,6 @@ library(shiny)
 library(rmarkdown)
 library(shinyWidgets)
 library(dplyr)
-library(waiter)
 
 # remaking this so that we can style it (more easily) w css later on
 fileInputOnlyButton <- function(..., label = "") {
@@ -39,24 +38,21 @@ ui <- tabsetPanel(
           class = "main_text",
           tags$h4(
             HTML(
-                        'Welcome to <b>ODK2Doc</b>! This is an app to convert ODK forms to printable, 
-                        and easily editable, .docx documents. <br> <br> To begin, upload an xls form using 
+                        '<br><br>Welcome to <b>ODK2Doc</b>! This is an app to convert ODK/Kobo survey forms to printable, 
+                        and easily editable, .docx documents. <br><br> To begin, upload an xls form using 
                         the upload button (<i class="fa fa-upload" style = "color: #8e8d8d;"></i>) below.
                         For best results, make sure your form uses the <b><span class="half_background">
                         <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
                         default</b></span></a> sheet names and a form title that has been added via the 
                         <b><span class="half_background"> <a href = "https://xlsform.org/en/#settings-worksheet", 
-                        target="_blank"> settings</b></span></a> sheet. <br><br> Once you have uploaded a form, you 
-                        also have the option to choose whether or not you want the app to print additional information, 
-                        such as the skip logic for each question; by default, it does not give you this information.
-                        <br><br>To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
+                        target="_blank"> settings</b></span></a> sheet. <br><br> To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
                         and wait for few seconds - your converted form will download as soon as it has been compiled!'
             )
           ),
           style = "font-size: 90%;
                           width: 60%;
                           text-align:justify;
-                          line-height: 1.7;"
+                          line-height: 1.5;"
         ),
         tags$div(
           class = "select_something",
@@ -80,16 +76,15 @@ ui <- tabsetPanel(
            label        = ".docx",
          ),
         tags$div(
-            checkboxInput(inputId = "checkbox", 
-                          label   = "Add extra information?", 
+            checkboxInput(inputId = "checkbox",
+                          label   = "Add skip logic?", 
                           value   = FALSE, 
                           width   = "100%"),
           ),
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in testing phase! (This <b>v.1</b>).<br>The next version will 
-            contain more features! <br><br><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
+            '<b> Note:</b> Still in the testing phase! (This <b>v1.2</b>)<br><br><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
             <a href = "https://twitter.com/zaeendesouza/", target="_blank">zaeendesouza</span></a>
             <br><i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
             <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
@@ -97,41 +92,43 @@ ui <- tabsetPanel(
           style          = "font-size: 10px;
                             width: 500px;
                             text-align: center;
-                            padding-top: 60px;"
+                            padding-top: 40px;"
         )
       )
     ),
-)
+  )
 )
 
 
 server <- function(input, output) {
   output$downloadreport <-
-    
-    downloadHandler(
-      
-      filename = "my-odk-form.docx",
-      
+  downloadHandler(
+    filename = "my-odk-form.docx",
       content = function(file) {
-        
         withProgress(message = "Please wait, while we convert your form.", {
           
-          src <- normalizePath("report.Rmd")
+            if (input$checkbox == TRUE) {
           
-          owd <- setwd(tempdir())
-          
-          on.exit(setwd(owd))
-          
-          file.copy(src, "report.Rmd", overwrite = TRUE)
-          
-          out <- render(
-            "report.Rmd",
-            output_format      = word_document(),
-            params = list(file = input$file1$datapath)
-          )
-        
-          file.rename(out, file)
-          
+            src <- normalizePath("report2.Rmd")
+            owd <- setwd(tempdir())
+            on.exit(setwd(owd))
+            file.copy(from      = src, 
+                      to        = "report2.Rmd", 
+                      overwrite = T)
+            out <- render(input = "report2.Rmd",
+                        output_format      = word_document(),
+                        params = list(file = input$file1$datapath))
+            file.rename(out, file)
+            }else{
+            src <- normalizePath("report1.Rmd")
+            owd <- setwd(tempdir())
+            on.exit(setwd(owd))
+            file.copy(src, "report1.Rmd", overwrite = T)
+            out <- render(input = "report1.Rmd",
+                          output_format      = word_document(),
+                          params = list(file = input$file1$datapath))
+            file.rename(out, file)
+          }
         }
       )
     }
