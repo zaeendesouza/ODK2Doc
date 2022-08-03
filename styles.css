@@ -114,12 +114,16 @@ a{
 }
 
 
+.half_background {
+  background: linear-gradient(to top, #57c0ce 25%, transparent 5%);
+}
+
+.shiny-progress.progress-text {
+color: red;
+}
+
 .progress-bar {
   font-size: 10px!important;
   margin-top: 10px;
   color: black}
-
-.half_background {
-  background: linear-gradient(to top, #57c0ce 25%, transparent 5%);
-}
 
