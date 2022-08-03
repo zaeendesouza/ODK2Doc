@@ -91,7 +91,7 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This <b>v1.2</b>). Thanks to Kabira Namit and Prabhmeet Kaur for feedback and help while testing.'
+            '<b> Note:</b> Still in the testing phase! (This is <b>v1.2</b>).'
           ),
           style          = "font-size: 10px;
                             width: 300px;
@@ -101,9 +101,9 @@ ui <- tabsetPanel(
       tags$div(
         tags$h2(
           HTML(
-            '<b><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
+            '<i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
             <a href = "https://twitter.com/zaeendesouza/", target="_blank">zaeendesouza</span></a>
-            <br><i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
+            <i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
             <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
           ),
           style          = "font-size: 10px;
