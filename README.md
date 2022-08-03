@@ -6,7 +6,7 @@ People working with these platforms, at times, need to convert their questionnai
 The final app is available for use [here](https://zaeendesouza.shinyapps.io/ODK2Doc/). I am still testing it out on various different forms, but if, while using it, you find any issues or errors, please flag these. Also, if you would like a specific feature(s) to be added, please let me know and I will try my best to add them!
 
 
-**Note:** *This is the first version of this app; I do plan to add more features soon.*
+**Note:** *This is a recent version of this app; I do plan to add more features soon.*
 
 ## Tips
 
