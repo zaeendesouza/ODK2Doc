@@ -3,9 +3,18 @@ library(rmarkdown)
 library(shinyWidgets)
 library(dplyr)
 
+# .shiny-progress .progress-text {
+#   position: relative;
+#   top:  50%;
+#   left: 50%;
+#   transform: translate(-50%, -50%);
+# }
+
+
 # remaking this so that we can style it (more easily) w css later on
 fileInputOnlyButton <- function(..., label = "") {
-  temp <- fileInput(..., label = label)
+  temp <- fileInput(..., 
+                    label = label)
   # Cuts away the label
   temp$children[[1]] <- NULL
   # Cut away the input field (after label is cut, this is position 1 now)
@@ -16,18 +25,16 @@ fileInputOnlyButton <- function(..., label = "") {
   temp
 }
 
-# not nusing fluidpage, since this is more neat
+# not using fluidpage, since this is more neat
 ui <- tabsetPanel(
   id = "panels",
   type = "hidden",
   selected = "main_page",
   tabPanelBody(
     value = "main_page",
-    # linking css right into the page
     includeCSS(path = "styles.css"),
       tags$div(
         class = "main_page_content",
-          # this is the main heading of the page
           tags$h1(
             tags$strong("ODK2Doc",
               style = "font-size: 100%;
@@ -49,7 +56,7 @@ ui <- tabsetPanel(
                         and wait for few seconds - your converted form will download as soon as it has been compiled!'
             )
           ),
-          style = "font-size: 90%;
+          style =         "font-size: 90%;
                           width: 60%;
                           text-align:justify;
                           line-height: 1.5;"
@@ -63,7 +70,7 @@ ui <- tabsetPanel(
                                     style = "color: #8e8d8d", 
                                     title = "Upload"), 
                                ".xls"),
-            accept      = c(".xlsx"),
+            accept      =    c(".xlsx"),
           ),
         ),
          downloadButton(
@@ -73,7 +80,7 @@ ui <- tabsetPanel(
            class        = "select_something",
            style        = HTML("text-decoration: none;"), 
            title        = "Download",
-           label        = ".docx",
+           label        = ".doc",
          ),
         tags$div(
             checkboxInput(inputId = "checkbox",
@@ -84,27 +91,43 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This <b>v1.2</b>)<br><br><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
+            '<b> Note:</b> Still in the testing phase! (This <b>v1.2</b>). Thanks to Kabira Namit and Prabhmeet Kaur for feedback and help while testing.'
+          ),
+          style          = "font-size: 10px;
+                            width: 300px;
+                            text-align: justify;
+                            padding-top: 40px;"
+        ),
+      tags$div(
+        tags$h2(
+          HTML(
+            '<b><i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
             <a href = "https://twitter.com/zaeendesouza/", target="_blank">zaeendesouza</span></a>
             <br><i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
             <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
           ),
           style          = "font-size: 10px;
-                            width: 500px;
+                            width: 300px;
                             text-align: center;
                             padding-top: 40px;"
+          )
         )
-      )
+      ),
     ),
   )
 )
 
 
 server <- function(input, output) {
+  
   output$downloadreport <-
-  downloadHandler(
-    filename = "my-odk-form.docx",
+    
+    downloadHandler(
+      
+      filename = "my-odk-form.docx",
+        
       content = function(file) {
+          
         withProgress(message = "Please wait, while we convert your form.", {
           
             if (input$checkbox == TRUE) {
@@ -112,21 +135,25 @@ server <- function(input, output) {
             src <- normalizePath("report2.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
-            file.copy(from      = src, 
-                      to        = "report2.Rmd", 
-                      overwrite = T)
-            out <- render(input = "report2.Rmd",
-                        output_format      = word_document(),
-                        params = list(file = input$file1$datapath))
+            file.copy(from                   = src, 
+                      to                     = "report2.Rmd", 
+                      overwrite              = T)
+            out <- render(input              = "report2.Rmd",
+                          output_format      = word_document(),
+                          params             = list(file = input$file1$datapath))
             file.rename(out, file)
+            
             }else{
+            
             src <- normalizePath("report1.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
-            file.copy(src, "report1.Rmd", overwrite = T)
-            out <- render(input = "report1.Rmd",
+            file.copy(from                   = src, 
+                      to                     = "report1.Rmd", 
+                      overwrite              = T)
+            out <- render(input              = "report1.Rmd",
                           output_format      = word_document(),
-                          params = list(file = input$file1$datapath))
+                          params             = list(file = input$file1$datapath))
             file.rename(out, file)
           }
         }

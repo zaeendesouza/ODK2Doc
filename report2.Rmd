@@ -56,27 +56,23 @@ yes_val      <- ifelse(test = "value" %in% df_names,
 
 if (yes_val == 0) {
 if (is.numeric(survey_choices$name)) {
-survey_choices <- 
-  survey_choices |>
-         mutate(name = paste("[", name, "]", sep = "")) |>
-         mutate(label = paste(name, label, sep = " "))
+    survey_choices <- 
+    survey_choices |>
+    mutate(name = paste("[", name, "]", sep = "")) |>
+    mutate(label = paste(name, label,   sep = " "))
 }else{
-  survey_choices <- 
+    survey_choices <- 
     survey_choices |>
     mutate(label = label)
 }
 }else{
   if (is.numeric(survey_choices$value)) {
-    survey_choices <- 
-      survey_choices |>
-      mutate(label = paste("[", value, "]", label, sep = " "))
-    
-    survey_choices <- 
+      survey_choices <- 
       survey_choices |>
       mutate(value = paste("[", value, "]", sep = "")) |>
       mutate(label = paste(value, label, sep = " "))
   }else{
-    survey_choices <- 
+      survey_choices <- 
       survey_choices |>
       mutate(label = label)
   }

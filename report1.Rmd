@@ -71,10 +71,6 @@ survey_choices <-
   if (is.numeric(survey_choices$value)) {
     survey_choices <- 
       survey_choices |>
-      mutate(label = paste("[", value, "]", label, sep = " "))
-    
-    survey_choices <- 
-      survey_choices |>
       mutate(value = paste("[", value, "]", sep = "")) |>
       mutate(label = paste(value, label, sep = " "))
   }else{
