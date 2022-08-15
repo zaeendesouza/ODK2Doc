@@ -13,8 +13,7 @@ The final app is available for use [here](https://zaeendesouza.shinyapps.io/ODK2
 Make sure that the form has a title, that has been added via the 'settings' sheet of the form. The app also requires that sheets have the default names:
 
 1. survey
-2. choices
-  2.1 within the choice sheet, you should choose one label column which you want to use and name is "label" as opposed to "label::english" or "label::[your language]".
+2. choices (Within the choice sheet, you should choose one label column which you want to use and name is "label" as opposed to "label::english" or "label::[your language]")
 3. settings
 
 Other names, will not work with this app.
