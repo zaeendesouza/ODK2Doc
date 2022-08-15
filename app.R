@@ -109,7 +109,7 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This is <b>v1.2</b>).'
+            '<b> Note:</b> Still in the testing phase! (This is <b>v1.3</b>). As it stands, your choice sheet column should be labelled "label", insted of "label:english", for example.'
           ),
           style          = "font-size: 10px;
                             width: 300px;
