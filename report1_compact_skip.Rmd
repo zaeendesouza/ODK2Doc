@@ -212,7 +212,7 @@ if (yes == 1) {
            label.x, 
            new_list,
            relevant) |>
-        rename(Label = name.x,
+        rename(Label = name,
                Logic = relevant)
 }
 
