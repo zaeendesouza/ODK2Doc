@@ -38,7 +38,7 @@ ui <- tabsetPanel(
           tags$h1(
             tags$strong("ODK2Doc",
               style = "font-size: 100%;
-                       padding-bottom: 0px;"
+                       padding-bottom: 0%;"
             )
           ),
         tags$div(
@@ -69,8 +69,9 @@ ui <- tabsetPanel(
             buttonLabel = list(icon("upload", 
                                     style = "color: #8e8d8d", 
                                     title = "Upload"), 
+                               ".xlsx"),
+            accept      =    c(".xlsx", 
                                ".xls"),
-            accept      =    c(".xlsx"),
           ),
         ),
          downloadButton(
@@ -80,14 +81,31 @@ ui <- tabsetPanel(
            class        = "select_something",
            style        = HTML("text-decoration: none;"), 
            title        = "Download",
-           label        = ".doc",
-         ),
+           label        = ".docx",
+         ),       
         tags$div(
-            checkboxInput(inputId = "checkbox",
-                          label   = "Add skip logic?", 
-                          value   = FALSE, 
-                          width   = "100%"),
-          ),
+           checkboxInput(inputId = "checkbox",
+                         label   = "Add skip logic?", 
+                         value   = FALSE, 
+                         width   = "100%")
+            # checkboxInput(inputId = "checkbox",
+            #               label   = "Compress form",
+            #               value   = FALSE,
+            #               width   = "100%"),
+            # checkboxGroupInput(inputId = "box",
+            #                    label = "",
+            #                    choices = c("Skip Logic?"    = TRUE,
+            #                                "Compress form?" = TRUE),
+            #                    inline = F)
+        # tags$div(id = "drop",
+        #          selectInput("state",
+        #                      "",
+        #                      list("Compressed Format",
+        #                           "Compressed Format + Skip",
+        #                           "Full length format",
+        #                           "Full length format + Skip"))),
+      ),
+    
         tags$div(
           tags$h3(
           HTML(
@@ -132,26 +150,26 @@ server <- function(input, output) {
           
             if (input$checkbox == TRUE) {
           
-            src <- normalizePath("report2.Rmd")
+            src <- normalizePath("report1_compact_skip.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report2.Rmd", 
+                      to                     = "report1_compact_skip.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report2.Rmd",
+            out <- render(input              = "report1_compact_skip.Rmd",
                           output_format      = word_document(),
                           params             = list(file = input$file1$datapath))
             file.rename(out, file)
             
             }else{
             
-            src <- normalizePath("report1.Rmd")
+            src <- normalizePath("report2_compact.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report1.Rmd", 
+                      to                     = "report2_compact.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report1.Rmd",
+            out <- render(input              = "report2_compact.Rmd",
                           output_format      = word_document(),
                           params             = list(file = input$file1$datapath))
             file.rename(out, file)
