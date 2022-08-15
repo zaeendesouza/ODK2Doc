@@ -21,6 +21,6 @@ Other names, will not work with this app.
 ## Files
 
 1. **App:** *Main shiny app file (contains ui and server).*
-2.  **report1.Rmd:** *Template for the minimal form.*
-3. **report2.Rmd:** *Template for when people choose to add skip logic.*
+2.  **report1_compact_skip.Rmd:** *Template for when people choose to add skip logic.*
+3. **report2_compact.Rmd:** *Template for minimal form.*
 4. **styles.css:** *Style sheet.*
