@@ -52,7 +52,8 @@ ui <- tabsetPanel(
                         <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
                         default</b></span></a> sheet names and a form title that has been added via the 
                         <b><span class="half_background"> <a href = "https://xlsform.org/en/#settings-worksheet", 
-                        target="_blank"> settings</b></span></a> sheet. <br><br> To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
+                        target="_blank"> settings</b></span></a> sheet. An example form, with the names required for using this app, can be found <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
+                        target="_blank">here</b></span></a>. <br><br> To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
                         and wait for few seconds - your converted form will download as soon as it has been compiled!'
             )
           ),
@@ -109,7 +110,8 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This is <b>v1.3</b>). As it stands, your choice sheet column should be labelled "label", insted of "label:english", for example.'
+            '<b> Note:</b> Still in the testing phase! (This is <b>v1.3</b>). Please take a look at the example form <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
+                        target="_blank">here</b></span></a>, for best results!'
           ),
           style          = "font-size: 10px;
                             width: 300px;
@@ -158,7 +160,8 @@ server <- function(input, output) {
                       overwrite              = T)
             out <- render(input              = "report1_compact_skip.Rmd",
                           output_format      = word_document(),
-                          params             = list(file = input$file1$datapath))
+                      
+                              params             = list(file = input$file1$datapath))
             file.rename(out, file)
             
             }else{
