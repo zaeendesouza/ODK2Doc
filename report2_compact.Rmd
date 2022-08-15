@@ -41,42 +41,38 @@ title            <- read_excel(params$file, sheet = "settings")
 title <- title$form_title
 
 # dropping blanks
-survey_choices <- survey_choices |>
-  filter(!is.na(list_name))
+survey_choices   <- survey_choices |>
+                    filter(!is.na(list_name))
 
 survey_questions <- survey_questions |>
-  filter(!is.na(label))
+                    filter(!is.na(label))
 
 # Forms -----
 
 # merging labels and codes
 
-df_names <- names(survey_choices)
+df_names     <- names(survey_choices)
 yes_val      <- ifelse(test = "value" %in% df_names, 
-                       yes = 1,
-                       no = 0)
+                       yes  = 1,
+                       no   = 0)
 
 if (yes_val == 0) {
   if (is.numeric(survey_choices$name)) {
-    survey_choices <- 
-      survey_choices |>
-      mutate(name  = paste("[", name, "]", sep = "")) |>
-      mutate(label = paste(name, label, sep = " "))
+    survey_choices <- survey_choices |>
+                      mutate(name  = paste("[", name, "]", sep = "")) |>
+                      mutate(label = paste(name, label, sep = " "))
   }else{
-    survey_choices <- 
-      survey_choices |>
-      mutate(label = label)
+    survey_choices <- survey_choices |>
+                      mutate(label = label)
   }
 }else{
   if (is.numeric(survey_choices$value)) {
-    survey_choices <- 
-      survey_choices |>
-      mutate(value = paste("[", value, "]", sep = "")) |>
-      mutate(label = paste(value, label, sep = " "))
+    survey_choices <- survey_choices |>
+                      mutate(value = paste("[", value, "]", sep = "")) |>
+                      mutate(label = paste(value, label, sep = " "))
   }else{
-    survey_choices <- 
-      survey_choices |>
-      mutate(label = label)
+    survey_choices <- survey_choices |>
+                      mutate(label = label)
   }
 }
 
@@ -85,7 +81,6 @@ survey_choices <- survey_choices |>
   mutate(new_list = paste(label, collapse="\n")) |>
   group_by(new_list) |>
   mutate(id = row_number()) |>
-  # keeping only the first instance of it, all entries != 1 are converted to NA
   mutate(new_list  = ifelse(test = id == 1,
                              yes  = new_list,
                              no   = NA)) |>
@@ -117,12 +112,12 @@ new_choice <- c("[Integer]",
                 "[Text]",
                 "[Enumerator Note]")
 
-  survey_questions$list_name <- ifelse(
-  survey_questions$type %in% types,
-  survey_questions$type,
-  survey_questions$list_name)
-
+survey_questions$list_name <- ifelse(
+survey_questions$type %in% types,
+survey_questions$type,
+survey_questions$list_name)
 survey_choices <- as.data.frame(survey_choices)  
+
 survey_choices <- survey_choices |>
   add_row(
     list_name = c("integer",
@@ -140,35 +135,30 @@ survey_choices <- survey_choices |>
 df_names <- names(survey_questions)
 
 ## Merging choices & questions via the choice label ----
-survey_questions <-
-  survey_questions |>
-  inner_join(x  = survey_questions,
-             y  = survey_choices,
-             by = "list_name")
+survey_questions <- survey_questions |>
+                    inner_join(x  = survey_questions,
+                               y  = survey_choices,
+                               by = "list_name")
 
 
 
 df_names <- names(survey_questions)
 yes      <- ifelse(test = "name.x" %in% df_names, 
-                   yes = 1,
-                   no = 0)
+                   yes  = 1,
+                   no   = 0)
 
 if (yes == 1) {
-  # some more cleaning
+  # some more cleaning for the forms
   survey_questions <- survey_questions  |>
-    # grouping by the question and assigning a unique ID to each one
     group_by(name.x) |>
     mutate(id = row_number()) |>
-    # keeping only the first instance of it, all entries != 1 are converted to NA
     mutate(label.x  = ifelse(test = id == 1,
                              yes  = label.x,
                              no   = NA))
 }else{
   survey_questions <- survey_questions  |>
-    # grouping by the question and assigning a unique ID to each one
     group_by(name) |>
     mutate(id = row_number()) |>
-    # keeping only the first instance of it, all entries != 1 are converted to NA
     mutate(label.x  = ifelse(test = id == 1,
                              yes  = label.x,
                              no   = NA))
@@ -176,8 +166,8 @@ if (yes == 1) {
 # for CTO forms
 df_names <- names(survey_questions)
 yes      <- ifelse(test = "name.x" %in% df_names, 
-                   yes = 1,
-                   no = 0)
+                   yes  = 1,
+                   no   = 0)
 
 
 if (yes == 1) {
@@ -199,7 +189,7 @@ if (yes == 1) {
     select(-id) |>
     group_by(name) |>
     mutate(id    = row_number()) |>
-    mutate(name  = ifelse(test   = id == 1,
+    mutate(name  = ifelse(test = id == 1,
                           yes  = name,
                           no   = NA))
   
@@ -223,9 +213,9 @@ survey_questions <- survey_questions|>
 
 # final table to be printed
 final <- subset(survey_questions, 
-                select=c("Label", 
-                         "Question", 
-                         "Choices"))
+                select = c("Label", 
+                           "Question", 
+                           "Choices"))
 
 rm(survey_choices, survey_questions)
 
@@ -239,9 +229,11 @@ title: "`r title`"
 final |>
   flextable() |>
   set_caption(caption = "Questionnaire",
-              style = "Table Caption") |>
-  bold(~ !is.na(Question), 2) |>
+              style   = "Table Caption") |>
+  bold(  ~ !is.na(Question), 2) |>
   italic(~ !is.na(Question), 1) |>
-  color(~ !is.na(Question), 1, part = "body", color = "red")
+  color( ~ !is.na(Question), 1, 
+        part  = "body", 
+        color = "red")
 ```
 
