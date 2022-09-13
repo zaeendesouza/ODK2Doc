@@ -2,6 +2,7 @@ library(shiny)
 library(rmarkdown)
 library(shinyWidgets)
 library(dplyr)
+library(shinyalert)
 
 # .shiny-progress .progress-text {
 #   position: relative;
@@ -110,7 +111,7 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This is <b>v1.3</b>). Please take a look at the example form <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
+            '<b> Note:</b> Still in the testing phase! (This is <b>v2</b>). Please take a look at the example form <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
                         target="_blank">here</b></span></a>, for best results!'
           ),
           style          = "font-size: 10px;
@@ -140,6 +141,10 @@ ui <- tabsetPanel(
 
 server <- function(input, output) {
   
+  # observeEvent(input$file1, {
+  #   
+  #   shinyalert("We are currently under maintenance. It will work, but there may be errors in your form.", type = "error")
+  # })
   output$downloadreport <-
     
     downloadHandler(
@@ -152,13 +157,13 @@ server <- function(input, output) {
           
             if (input$checkbox == TRUE) {
           
-            src <- normalizePath("report1_compact_skip.Rmd")
+            src <- normalizePath("report1_compact_skip_new.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report1_compact_skip.Rmd", 
+                      to                     = "report1_compact_skip_new.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report1_compact_skip.Rmd",
+            out <- render(input              = "report1_compact_skip_new.Rmd",
                           output_format      = word_document(),
                       
                               params             = list(file = input$file1$datapath))
@@ -166,13 +171,13 @@ server <- function(input, output) {
             
             }else{
             
-            src <- normalizePath("report2_compact.Rmd")
+            src <- normalizePath("report2_compact_new.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report2_compact.Rmd", 
+                      to                     = "report2_compact_new.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report2_compact.Rmd",
+            out <- render(input              = "report2_compact_new.Rmd",
                           output_format      = word_document(),
                           params             = list(file = input$file1$datapath))
             file.rename(out, file)
