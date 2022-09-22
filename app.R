@@ -4,7 +4,7 @@ library(shinyWidgets)
 library(dplyr)
 library(shinyalert)
 
-# .shiny-progress .progress-text {
+# .shiny-progress.progress-text {
 #   position: relative;
 #   top:  50%;
 #   left: 50%;
@@ -46,16 +46,16 @@ ui <- tabsetPanel(
           class = "main_text",
           tags$h4(
             HTML(
-                        '<br><br>Welcome to <b>ODK2Doc</b>! This is an app to convert ODK/Kobo survey forms to printable, 
-                        and easily editable, .docx documents. <br><br> To begin, upload an xls form using 
-                        the upload button (<i class="fa fa-upload" style = "color: #8e8d8d;"></i>) below.
-                        For best results, make sure your form uses the <b><span class="half_background">
-                        <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
-                        default</b></span></a> sheet names and a form title that has been added via the 
-                        <b><span class="half_background"> <a href = "https://xlsform.org/en/#settings-worksheet", 
-                        target="_blank"> settings</b></span></a> sheet. An example form, with the names required for using this app, can be found <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
-                        target="_blank">here</b></span></a>. <br><br> To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
-                        and wait for few seconds - your converted form will download as soon as it has been compiled!'
+                '<br><br>Welcome to <b>ODK2Doc</b>! This is an app to convert ODK/Kobo survey forms to printable, 
+                and easily editable, .docx documents. <br><br> To begin, upload an xls form using 
+                the upload button (<i class="fa fa-upload" style = "color: #8e8d8d;"></i>) below.
+                For best results, make sure your form uses the <b><span class="half_background">
+                <a href = "https://xlsform.org/en/#basic-format/", target="_blank">
+                default</b></span></a> sheet names and a form title that has been added via the 
+                <b><span class="half_background"> <a href = "https://xlsform.org/en/#settings-worksheet", 
+                target="_blank"> settings</b></span></a> sheet. An example form, with the names required for using this app, can be found <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
+                target="_blank">here</b></span></a>. <br><br> To finish, click on the download button (<i class="fa fa-download" style = "color: #8e8d8d;"></i>),
+                and wait for few seconds - your converted form will download as soon as it has been compiled!'
             )
           ),
           style =         "font-size: 90%;
@@ -86,19 +86,16 @@ ui <- tabsetPanel(
            label        = ".docx",
          ),       
         tags$div(
+          # uncomment this chunk to run OG version
            checkboxInput(inputId = "checkbox",
-                         label   = "Add skip logic?", 
-                         value   = FALSE, 
-                         width   = "100%")
-            # checkboxInput(inputId = "checkbox",
-            #               label   = "Compress form",
-            #               value   = FALSE,
-            #               width   = "100%"),
+                         label   = "Add skip logic?",
+                         value   = FALSE,
+                         width   = "100%"),
             # checkboxGroupInput(inputId = "box",
             #                    label = "",
-            #                    choices = c("Skip Logic?"    = TRUE,
-            #                                "Compress form?" = TRUE),
-            #                    inline = F)
+            #                    choices = c("Type-I"    = TRUE,
+            #                                "Type-II" = TRUE),
+            #                    inline = T),
         # tags$div(id = "drop",
         #          selectInput("state",
         #                      "",
@@ -111,11 +108,10 @@ ui <- tabsetPanel(
         tags$div(
           tags$h3(
           HTML(
-            '<b> Note:</b> Still in the testing phase! (This is <b>v2</b>). Please take a look at the example form <b><span class="half_background"> <a href = "https://docs.google.com/spreadsheets/d/1tUPkbjIv0H2Aoj78kCf0eMAQO-uALoMIEJq4aL1C00I/edit#gid=0", 
-                        target="_blank">here</b></span></a>, for best results!'
+            '<b> Note:</b> Currently, the app is in its final testing phase! (This is <b>v2</b>).'
           ),
           style          = "font-size: 10px;
-                            width: 300px;
+                            width: 460px;
                             text-align: justify;
                             padding-top: 40px;"
         ),
@@ -128,7 +124,7 @@ ui <- tabsetPanel(
             <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
           ),
           style          = "font-size: 10px;
-                            width: 300px;
+                            width: 460px;
                             text-align: center;
                             padding-top: 40px;"
           )
@@ -157,27 +153,26 @@ server <- function(input, output) {
           
             if (input$checkbox == TRUE) {
           
-            src <- normalizePath("report1_compact_skip_new.Rmd")
+            src <- normalizePath("report1_compact_skip.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report1_compact_skip_new.Rmd", 
+                      to                     = "report1_compact_skip.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report1_compact_skip_new.Rmd",
+            out <- render(input              = "report1_compact_skip.Rmd",
                           output_format      = word_document(),
-                      
-                              params             = list(file = input$file1$datapath))
+                          params             = list(file = input$file1$datapath))
             file.rename(out, file)
             
             }else{
             
-            src <- normalizePath("report2_compact_new.Rmd")
+            src <- normalizePath("report2_compact.Rmd")
             owd <- setwd(tempdir())
             on.exit(setwd(owd))
             file.copy(from                   = src, 
-                      to                     = "report2_compact_new.Rmd", 
+                      to                     = "report2_compact.Rmd", 
                       overwrite              = T)
-            out <- render(input              = "report2_compact_new.Rmd",
+            out <- render(input              = "report2_compact.Rmd",
                           output_format      = word_document(),
                           params             = list(file = input$file1$datapath))
             file.rename(out, file)
