@@ -1,7 +1,7 @@
 ---
-author: "[AUTHOR NAME HERE]"
+author: ""
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: word_document
+output: rdocx_document
 params:
   file:
     value: NA
@@ -16,6 +16,9 @@ library(ftExtra)
 library(tidyverse)
 library(knitr)
 library(rmarkdown)
+library(officedown)
+library(officer)
+
 
 set_flextable_defaults(font.family  = "Calibri",
                        border.color = "black",  
@@ -218,7 +221,7 @@ survey_questions <- survey_questions|>
          label.x, 
          new_list,
          relevant) |>
-  rename(Label = name.x)
+  rename(Variable = name.x)
 
 # need to correct column labels
 survey_questions <- survey_questions|>
@@ -226,14 +229,14 @@ survey_questions <- survey_questions|>
          Choices  = new_list,
          Logic    = relevant) |>
   mutate(Question = replace_na(Question, " ")) |>
-  select(Label, 
+  select(Variable, 
          Question,
          Logic,
-         Choices,)
+         Choices)
 
 # final table to be printed
 final <- subset(survey_questions, 
-                select = c("Label", 
+                select = c("Variable", 
                            "Question",
                            "Logic",
                            "Choices"))
@@ -243,9 +246,9 @@ final <- final |>
   mutate(Choices = ifelse(test = test_section == TRUE, 
                           yes = NA,
                           no = Choices)) |>
-  mutate(Label = ifelse(test = test_section == TRUE, 
+  mutate(Variable = ifelse(test = test_section == TRUE, 
                           yes = "Section Name",
-                          no = Label)) |>
+                          no = Variable)) |>
   mutate(Choices = replace_na(Choices, "")) |>
   select(-test_section)
 
@@ -259,7 +262,11 @@ rm(survey_choices, survey_questions)
 title: "`r title`"
 ---
 
+
+
 ```{r ft.split = TRUE, echo = F}
+
+
   final <- 
   final |>
   flextable() |>
@@ -271,11 +278,11 @@ final <- bg(final,
            bg      =            "white", 
            part    =            "header")
 final <- bg(final, 
-           i       = ~ Label == "Section Name", 
+           i       = ~ Variable == "Section Name", 
            bg      =            "#345A8A", 
            part    =            "body")
 final <- color(final, 
-              i    = ~ Label == "Section Name", 
+              i    = ~ Variable == "Section Name", 
            color   = "white", 
            part    = "body")
 
@@ -287,15 +294,14 @@ final <-  italic(final,
                  ~ !is.na(Question), 1)
 
 final <- color(final, 
-              ~ !is.na(Question) & Label!="Section Name", 
+              ~ !is.na(Question) & Variable!="Section Name", 
               1, 
               part  = "body", 
               color = "blue")
 
 final <-  color(final, 
-              ~ !is.na(Question) & Label!="Section Name", 3, 
+              ~ !is.na(Question) & Variable!="Section Name", 3, 
                 part = "body",
                color = "red")
 final
-
 ```
