@@ -110,6 +110,8 @@ types <-  c("integer",
             "date",
             "time",
             "dateTime",
+            "datetime",
+            "sensor_statistic",
             "image",
             "audio",
             "background-audio",
@@ -144,6 +146,8 @@ survey_choices <- survey_choices %>%
                   "date",
                   "time",
                   "dateTime",
+                  "datetime",
+                  "sensor_statistic",
                   "image",
                   "audio",
                   "background-audio",
@@ -165,6 +169,8 @@ survey_choices <- survey_choices %>%
                   "[Date]",
                   "[Time]",
                   "[Date + Time]",
+                  "[Date + Time]",
+                  "[Mobile Sensor Statistic]",
                   "[Image]",
                   "[Audio]",
                   "[Background Audio]",
@@ -189,14 +195,14 @@ survey_questions <- survey_questions |>
 
 ## Merging choices & questions via the choice label ----
 survey_questions <- survey_questions |>
-  inner_join(x  = survey_questions,
-             y  = survey_choices,
-             by = "list_name")
+                    inner_join(x  = survey_questions,
+                    y  = survey_choices,
+                    by = "list_name")
 
 survey_questions <- survey_questions |>
-  mutate(label.y = ifelse(test = type == "begin_group", 
-                          yes = label.x, 
-                          no = label.y))
+                    mutate(label.y = ifelse(test = type == "begin_group", 
+                                            yes = label.x, 
+                                            no = label.y))
 
 survey_questions <- 
   survey_questions |>
@@ -242,7 +248,7 @@ final <- subset(survey_questions,
                            "Choices"))
 
 final <- final |>
-  mutate(test_section = str_detect(Choices, "\\[", negate = 1)) |>
+  mutate(test_section = str_detect(Choices, "\\[", negate = TRUE)) |>
   mutate(Choices = ifelse(test = test_section == TRUE, 
                           yes = NA,
                           no = Choices)) |>

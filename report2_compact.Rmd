@@ -1,6 +1,6 @@
 ---
 author: ""
-# date: "`r format(Sys.time(), '%d %B, %Y')`"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: word_document
 params:
   file:
@@ -241,7 +241,7 @@ final <- subset(survey_questions,
 
 
 final <- final |>
-  mutate(test_section = str_detect(Choices, "\\[", negate = 1)) |>
+  mutate(test_section = str_detect(Choices, "\\[", negate = TRUE)) |>
   mutate(Choices = ifelse(test = test_section == TRUE, 
                           yes = NA,
                           no = Choices)) |>

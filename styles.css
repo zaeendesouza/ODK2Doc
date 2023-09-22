@@ -1,129 +1,112 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
-h2,
-h3,
-h4,
-h5,
-h6,
-body {
-  font-family: 'Roboto Mono', sans-serif;
-  font-weight: 200;
+ h2, h3, h5, h6, body {
+     font-family: 'Roboto Mono', sans-serif;
+     font-weight: 200;
+}
+ @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+ h1 {
+     font-family: 'Roboto Mono', sans-serif;
+     font-weight: 600;
+     justify-content: center;
+     background: linear-gradient(to top, #ffeb3b 35%, transparent 5%);
+     margin-bottom: -10%;
+}
+ h4 {
+     font-size: 13px;
+     font-family: 'Roboto Mono', sans-serif;
+     font-weight: 200;
+}
+ a{
+     text-decoration:none;
+     color: black;
+}
+ .main_page_header {
+     display: grid;
+     grid-template-columns: repeat(2, 1fr);
+     grid-template-rows: 1fr;
+     column-gap: 90%;
+     align-content: center;
+     justify-content: space-evenly;
+     align-items: center;
+     justify-items: center;
+     background-color: white;
+     font-color: #ee8866;
+     max-height: 50px;
+     padding: 10px;
+}
+ .main_page_content {
+     margin-top: -10%;
+     display: grid;
+     grid-template-columns: 1fr;
+     grid-template-rows: repeat(2, 1fr);
+     row-gap: 10px;
+     background-color: white;
+     align-content: center;
+     justify-content: center;
+     align-items: center;
+     justify-items: center;
+}
+ .select_something {
+     background-color: white;
+     position: relative;
+     z-index: 1;
+     display: inline-block;
+     color: black;
+     margin: auto;
+     padding: 0.5rem;
+     justify-content: center;
+     text-align: center;
+     align-items: center;
+     justify-items: center;
+     text-decoration: none;
+     border-radius: 0.3rem;
+     width: 150px;
+     height: 20px;
+     border: 0.1px #B0AB99 solid;
+     cursor: pointer;
+     _cursor: hand;
+     margin-top: 0.5rem;
+}
+ .select_something2 {
+     background-color: white;
+     position: relative;
+     z-index: 1;
+     display: inline-block;
+     color: black;
+     margin-top: 200px;
+     padding: 0.5rem;
+     justify-content: center;
+     text-align: center;
+     align-items: center;
+     justify-items: center;
+     text-decoration: none;
+     border-radius: 0.3rem;
+     width: 150px;
+     height: 20px;
+     border: 0.1px #B0AB99 solid;
+     cursor: pointer;
+     _cursor: hand;
+     margin-top: 0.5rem;
+}
+ .select_something:active {
+     transform: scale(0.98);
+    /* Scaling button to 0.98 to its original size */
+     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.60);
+    /* Lowering the shadow */
+}
+ .text_content {
+     text-align: center;
+}
+ .half_background {
+     background: linear-gradient(to top, #57c0ce 25%, transparent 5%);
+}
+ .shiny-progress.progress-text {
+     color: red;
+}
+ .progress-bar {
+     font-size: 10px!important;
+     margin-top: 10px;
+     color: black
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
-h1  {
-  font-family: 'Roboto Mono', sans-serif;
-  font-weight: 600;
-  justify-content: center;
-  background: linear-gradient(to top, #ffeb3b 35%, transparent 5%);
-  margin-bottom: -200px;
-     }
-
-h4 {
-    font-size: 13px;
-    font-family: 'Roboto Mono', sans-serif;
-    font-weight: 200;
-}
-
-a{
-  text-decoration:none;  
-  color: black;
-}
-
-.main_page_header {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr;
-    column-gap: 90%;
-    align-content: center;
-    justify-content: space-evenly;
-    align-items: center;
-    justify-items: center;
-    background-color: white;
-    font-color: #ee8866;
-    max-height: 50px;
-    padding: 10px;
-}
-
-.main_page_content {
-    margin-top: -10%;
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: repeat(2, 1fr);
-    row-gap: 10px;
-    background-color: white;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
-}
-
-.select_something {
-  background-color: white;
-  position: relative;
-  z-index: 1; 
-  display: inline-block; 
-  color: black;
-  margin: auto;
-  padding: 0.5rem;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  justify-items: center;
-  text-decoration: none;
-  border-radius: 0.3rem;
-  width: 150px;
-  height: 20px;
-  border: 0.1px #B0AB99 solid;
-  cursor: pointer;
-  _cursor: hand;
-  margin-top: 0.5rem;
-}
-
-.select_something2 {
-  background-color: white;
-  position: relative;
-  z-index: 1; 
-  display: inline-block; 
-  color: black;
-  margin-top: 200px;
-  padding: 0.5rem;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  justify-items: center;
-  text-decoration: none;
-  border-radius: 0.3rem;
-  width: 150px;
-  height: 20px;
-  border: 0.1px #B0AB99 solid;
-  cursor: pointer;
-  _cursor: hand;
-  margin-top: 0.5rem;
-}
-
-.select_something:active {
-            transform: scale(0.98);
-            /* Scaling button to 0.98 to its original size */
-            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.60);
-            /* Lowering the shadow */
-        }
-
-
-.text_content {
-    text-align: center;
-}
-
-
-.half_background {
-  background: linear-gradient(to top, #57c0ce 25%, transparent 5%);
-}
-
-.shiny-progress.progress-text {
-color: red;
-}
-
-.progress-bar {
-  font-size: 10px!important;
-  margin-top: 10px;
-  color: black}
-
+ 
