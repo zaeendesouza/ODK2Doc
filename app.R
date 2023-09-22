@@ -107,24 +107,26 @@ ui <- tabsetPanel(
     
         tags$div(
           tags$h3(
-          HTML(
-            '<b> Note:</b> Currently, the app is in its final testing phase! (This is <b>v2</b>).'
-          ),
-          style          = "font-size: 10px;
-                            width: 460px;
-                            text-align: justify;
-                            padding-top: 40px;"
+#          HTML(
+#            '<b> Note:</b> Currently, the app is in its final testing phase! (This is <b>v2</b>).'
+#          ),
+#          style          = "font-size: 10px;
+#                            width: 460px;
+#                            text-align: justify;
+#                            padding-top: 40px;"
         ),
       tags$div(
         tags$h2(
           HTML(
             '<i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
-            <a href = "https://twitter.com/zaeendesouza/", target="_blank">zaeendesouza</span></a>
+            <a href = "https://twitter.com/zaeendesouza/", target="_blank">@zaeendesouza</span></a>
+            <i class="fa fa-twitter" style = "color: #8e8d8d;"></i>
+            <a href = "https://twitter.com/Kabira_Namit", target="_blank">@Kabira_Namit</span></a>
             <i class="fa fa-github" style = "color: #8e8d8d;"></i></i>
-            <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">zaeendesouza</span></a>'
+            <a href = "https://github.com/zaeendesouza/ODK2Doc", target="_blank">ODK2Doc</span></a>'
           ),
           style          = "font-size: 10px;
-                            width: 460px;
+                            width: 300px;
                             text-align: center;
                             padding-top: 40px;"
           )
